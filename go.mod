@@ -1,6 +1,6 @@
 module github.com/dmars8047/marshall-labs-sdk
 
-go 1.22.0
+go 1.26.2
 
 require (
 	github.com/dmars8047/strval v1.0.1
