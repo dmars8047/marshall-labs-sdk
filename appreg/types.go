@@ -2,15 +2,23 @@ package appreg
 
 import "errors"
 
+type MembershipType uint8
+
+const (
+	OpenEnrollment  MembershipType = iota // 0 — users self-register freely (default)
+	AdminApproval                         // 1 — new registrations require admin approval
+)
+
 type Application struct {
-	ID                     string    `json:"id"`
-	Name                   string    `json:"name"`
-	Description            string    `json:"description"`
-	Slug                   string    `json:"slug"`
-	Features               []Feature `json:"features"`
-	PublicBaseUrl          string    `json:"public_base_url"`
-	VerifyUserUrlSuffix    string    `json:"verify_user_url_suffix"`
-	PasswordResetUrlSuffix string    `json:"password_reset_url_suffix"`
+	ID                     string         `json:"id"`
+	Name                   string         `json:"name"`
+	Description            string         `json:"description"`
+	Slug                   string         `json:"slug"`
+	MembershipType         MembershipType `json:"membership_type"`
+	Features               []Feature      `json:"features"`
+	PublicBaseUrl          string         `json:"public_base_url"`
+	VerifyUserUrlSuffix    string         `json:"verify_user_url_suffix"`
+	PasswordResetUrlSuffix string         `json:"password_reset_url_suffix"`
 }
 
 type Feature struct {
@@ -18,6 +26,7 @@ type Feature struct {
 	Name        string  `json:"name"`
 	Description string  `json:"description"`
 	IsDefault   bool    `json:"is_default"`
+	IsAdmin     bool    `json:"is_admin"`
 	Routes      []Route `json:"routes"`
 }
 

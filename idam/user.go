@@ -8,6 +8,13 @@ const (
 	StandardUserType IdamUserType = iota
 )
 
+type MembershipStatus uint8
+
+const (
+	Active          MembershipStatus = iota // 0 — fully enrolled, has features
+	PendingApproval                         // 1 — awaiting admin approval
+)
+
 type UserApplication struct {
 	// ID of the application that the user belongs to.
 	Id string `json:"id"`
@@ -15,6 +22,8 @@ type UserApplication struct {
 	Slug string `json:"slug"`
 	// The features of the application this user has access to
 	Features []string `json:"features"`
+	// The membership status of the user within this application
+	Status MembershipStatus `json:"status"`
 }
 
 type User struct {
