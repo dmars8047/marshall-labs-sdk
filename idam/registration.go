@@ -11,9 +11,10 @@ type ExistingUserRegistrationRequest struct {
 }
 
 type UserRegistrationRequest struct {
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	Username    string `json:"username"`
+	Email       string `json:"email"`
+	Password    string `json:"password"`
+	InviteToken string `json:"invite_token,omitempty"`
 }
 
 type UserRegistrationResponse struct {
