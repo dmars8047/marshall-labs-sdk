@@ -7,6 +7,7 @@ type MembershipType uint8
 const (
 	OpenEnrollment  MembershipType = iota // 0 — users self-register freely (default)
 	AdminApproval                         // 1 — new registrations require admin approval
+	InviteOnly                            // 2 — users may only join via admin-issued invitation
 )
 
 type Application struct {
@@ -19,6 +20,7 @@ type Application struct {
 	PublicBaseUrl          string         `json:"public_base_url"`
 	VerifyUserUrlSuffix    string         `json:"verify_user_url_suffix"`
 	PasswordResetUrlSuffix string         `json:"password_reset_url_suffix"`
+	InviteUrlSuffix        string         `json:"invite_url_suffix"`
 }
 
 type Feature struct {
