@@ -25,6 +25,7 @@ const (
 	USER_ACCOUNT_INIT_PASSWORD_RESET_URL_SUFFIX   = "/api/idam/user-account/applications/:appId/initiate-password-reset"
 	USER_ACCOUNT_EXEC_PASSWORD_RESET_URL_SUFFIX   = "/api/idam/user-account/applications/:appId/execute-password-reset"
 	USER_ACCOUNT_LOGOUT_URL_SUFFIX                = "/api/idam/user-account/logout"
+	USER_ACCOUNT_EXCHANGE_AUTH_CODE_URL_SUFFIX    = "/api/idam/user-account/applications/:appId/exchange"
 )
 
 // Function to create a new IdamAuthService
@@ -487,4 +488,61 @@ func (client *UserAuthClient) ExecutePasswordReset(appId string, request *UserPa
 	}
 
 	return nil
+}
+
+// ExchangeAuthCode exchanges a short-lived auth code for a UserLoginResponse containing the JWT.
+// The code is issued by the login endpoint when a redirect_uri is provided and is single-use with a 60-second TTL.
+func (client *UserAuthClient) ExchangeAuthCode(appId string, request *ExchangeAuthCodeRequest) (*UserLoginResponse, error) {
+	urlSuffix := strings.Replace(USER_ACCOUNT_EXCHANGE_AUTH_CODE_URL_SUFFIX, ":appId", appId, 1)
+
+	base, err := url.Parse(client.baseUrl)
+	if err != nil {
+		return nil, err
+	}
+
+	suffix, err := url.Parse(urlSuffix)
+	if err != nil {
+		return nil, err
+	}
+
+	resolvedURL := base.ResolveReference(suffix)
+
+	requestBodyBytes, err := json.Marshal(request)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, resolvedURL.String(), bytes.NewReader(requestBodyBytes))
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("Content-Type", "application/json")
+
+	response, err := client.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	defer response.Body.Close()
+
+	if response.StatusCode != http.StatusOK {
+		var errorResponse ErrorResponse
+
+		err = json.NewDecoder(response.Body).Decode(&errorResponse)
+		if err != nil {
+			return nil, fmt.Errorf("error decoding response body from idam service - %v", err)
+		}
+
+		return nil, &errorResponse
+	}
+
+	var loginResponse UserLoginResponse
+
+	err = json.NewDecoder(response.Body).Decode(&loginResponse)
+	if err != nil {
+		return nil, errors.New("error decoding exchange auth code response body from idam service")
+	}
+
+	return &loginResponse, nil
 }
