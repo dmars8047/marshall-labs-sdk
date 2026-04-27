@@ -109,4 +109,22 @@ const (
 	// Error code 90 is similar to a Data Conflict but is specific to a users username
 	UsernameConflict        = 95
 	UsernameConflictMessage = "username conflict"
+	// Error code 100 indicates the referenced invitation was not found.
+	InviteNotFound        = 100
+	InviteNotFoundMessage = "invitation not found"
+	// Error code 105 indicates the referenced invitation has expired.
+	InviteExpired        = 105
+	InviteExpiredMessage = "invitation has expired"
+	// Error code 110 indicates the referenced invitation has been revoked by an admin.
+	InviteRevoked        = 110
+	InviteRevokedMessage = "invitation has been revoked"
+	// Error code 115 indicates the referenced invitation has already been accepted.
+	InviteAlreadyAccepted        = 115
+	InviteAlreadyAcceptedMessage = "invitation has already been accepted"
+	// Error code 120 indicates the user's email does not match the invitation's invitee email.
+	InviteeMismatch        = 120
+	InviteeMismatchMessage = "user email does not match invitation"
+	// Error code 125 indicates a pending invitation already exists for this email and application.
+	DuplicateInvite        = 125
+	DuplicateInviteMessage = "a pending invitation already exists for this email and application"
 )
