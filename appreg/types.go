@@ -21,6 +21,7 @@ type Application struct {
 	VerifyUserUrlSuffix    string         `json:"verify_user_url_suffix"`
 	PasswordResetUrlSuffix string         `json:"password_reset_url_suffix"`
 	InviteUrlSuffix        string         `json:"invite_url_suffix"`
+	DefaultRedirectUri     string         `json:"default_redirect_uri"`
 }
 
 type Feature struct {
