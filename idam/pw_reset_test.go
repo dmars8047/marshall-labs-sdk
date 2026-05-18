@@ -9,20 +9,7 @@ func TestUserPasswordResetExecutionRequest_Validate_Password(t *testing.T) {
 		VerificationCode:   "verify-code",
 	}
 
-	tests := []struct {
-		name      string
-		password  string
-		wantValid bool
-	}{
-		{"too short (11 chars)", "abcdefghijk", false},
-		{"minimum length (12 chars, no complexity)", "abcdefghijkl", true},
-		{"long passphrase no complexity", "correct horse battery staple", true},
-		{"too long (65 chars)", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", false},
-		{"non-ASCII character", "abcdefghijkl\xe9", false},
-		{"empty", "", false},
-	}
-
-	for _, tt := range tests {
+	for _, tt := range passwordValidationCases {
 		t.Run(tt.name, func(t *testing.T) {
 			req := validBase
 			req.NewPassword = tt.password

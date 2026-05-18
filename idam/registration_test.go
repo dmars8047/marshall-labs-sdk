@@ -8,20 +8,7 @@ func TestUserRegistrationRequest_Validate_Password(t *testing.T) {
 		Email:    "test@example.com",
 	}
 
-	tests := []struct {
-		name      string
-		password  string
-		wantValid bool
-	}{
-		{"too short (11 chars)", "abcdefghijk", false},
-		{"minimum length (12 chars, no complexity)", "abcdefghijkl", true},
-		{"long passphrase no complexity", "correct horse battery staple", true},
-		{"too long (65 chars)", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", false},
-		{"non-ASCII character", "abcdefghijkl\xe9", false},
-		{"empty", "", false},
-	}
-
-	for _, tt := range tests {
+	for _, tt := range passwordValidationCases {
 		t.Run(tt.name, func(t *testing.T) {
 			req := validBase
 			req.Password = tt.password
@@ -33,7 +20,7 @@ func TestUserRegistrationRequest_Validate_Password(t *testing.T) {
 	}
 }
 
-func TestUserRegistrationRequest_Validate_HappyPath(t *testing.T) {
+func TestUserRegistrationRequest_Validate_AllFieldsValid(t *testing.T) {
 	req := UserRegistrationRequest{
 		Username: "testuser",
 		Email:    "test@example.com",

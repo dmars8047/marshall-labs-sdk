@@ -27,8 +27,6 @@ type UserRegistrationResponse struct {
 	Features     []string  `json:"features"`
 }
 
-// Registration returns a User object if the registration was successful
-
 func (request *UserRegistrationRequest) Validate() (valid bool, errors []string) {
 	validationErrors := make([]string, 0)
 
@@ -55,12 +53,7 @@ func (request *UserRegistrationRequest) Validate() (valid bool, errors []string)
 		validationErrors = append(validationErrors, emailValidationResult.Messages...)
 	}
 
-	passwordValidationResult := strval.ValidateStringWithName(request.Password, "password",
-		strval.MustNotBeEmpty(),
-		strval.MustHaveMinLengthOf(MinPasswordLength),
-		strval.MustHaveMaxLengthOf(MaxPasswordLength),
-		strval.MustOnlyContainPrintableCharacters(),
-		strval.MustOnlyContainASCIICharacters())
+	passwordValidationResult := validatePassword(request.Password, "password")
 
 	if !passwordValidationResult.Valid {
 		validationErrors = append(validationErrors, passwordValidationResult.Messages...)

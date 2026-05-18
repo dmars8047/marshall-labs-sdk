@@ -16,12 +16,7 @@ type UserPasswordResetExecutionRequest struct {
 
 // Validate validates the password reset execution request
 func (request *UserPasswordResetExecutionRequest) Validate() (valid bool, errors []string) {
-	passwordValidationResult := strval.ValidateStringWithName(request.NewPassword, "new_password",
-		strval.MustNotBeEmpty(),
-		strval.MustHaveMinLengthOf(MinPasswordLength),
-		strval.MustHaveMaxLengthOf(MaxPasswordLength),
-		strval.MustOnlyContainPrintableCharacters(),
-		strval.MustOnlyContainASCIICharacters())
+	passwordValidationResult := validatePassword(request.NewPassword, "new_password")
 
 	if !passwordValidationResult.Valid {
 		return false, passwordValidationResult.Messages
