@@ -11,7 +11,6 @@ type ExistingUserRegistrationRequest struct {
 }
 
 type UserRegistrationRequest struct {
-	Username    string `json:"username"`
 	Email       string `json:"email"`
 	Password    string `json:"password"`
 	InviteToken string `json:"invite_token,omitempty"`
@@ -19,7 +18,6 @@ type UserRegistrationRequest struct {
 
 type UserRegistrationResponse struct {
 	UserId       string    `json:"user_id"`
-	Username     string    `json:"username"`
 	Email        string    `json:"email"`
 	Verified     bool      `json:"verified"`
 	Provider     string    `json:"provider"`
@@ -30,20 +28,6 @@ type UserRegistrationResponse struct {
 func (request *UserRegistrationRequest) Validate() (valid bool, errors []string) {
 	validationErrors := make([]string, 0)
 
-	// Validate the username
-	// The username must be alphanumeric, be at least 3 characters long, and have a max length of 20 characters
-	usrnameValidationResult := strval.ValidateStringWithName(request.Username, "username",
-		strval.MustNotBeEmpty(),
-		strval.MustBeAlphaNumeric(),
-		strval.MustHaveMinLengthOf(3),
-		strval.MustHaveMaxLengthOf(20))
-
-	if !usrnameValidationResult.Valid {
-		validationErrors = append(validationErrors, usrnameValidationResult.Messages...)
-	}
-
-	// Validate email
-	// The email must be not empty and valid email address
 	emailValidationResult := strval.ValidateStringWithName(request.Email, "email",
 		strval.MustNotBeEmpty(),
 		strval.MustBeValidEmailFormat(),

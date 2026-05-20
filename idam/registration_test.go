@@ -4,8 +4,7 @@ import "testing"
 
 func TestUserRegistrationRequest_Validate_Password(t *testing.T) {
 	validBase := UserRegistrationRequest{
-		Username: "testuser",
-		Email:    "test@example.com",
+		Email: "test@example.com",
 	}
 
 	for _, tt := range passwordValidationCases {
@@ -22,7 +21,6 @@ func TestUserRegistrationRequest_Validate_Password(t *testing.T) {
 
 func TestUserRegistrationRequest_Validate_AllFieldsValid(t *testing.T) {
 	req := UserRegistrationRequest{
-		Username: "testuser",
 		Email:    "test@example.com",
 		Password: "correct horse battery staple",
 	}
