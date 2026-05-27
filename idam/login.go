@@ -13,7 +13,6 @@ type UserLoginResponse struct {
 	ApplicationId string `json:"application"`
 	ExpiresIn     int64  `json:"expires_in"`
 	UserId        string `json:"user_id"`
-	Username      string `json:"username"`
 	RefreshToken  string `json:"refresh_token"`
 }
 
