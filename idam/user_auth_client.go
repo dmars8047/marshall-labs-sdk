@@ -21,6 +21,7 @@ const (
 	USER_ACCOUNT_REGISTRATION_URL_SUFFIX          = "/api/idam/user-account/applications/:appId/register"
 	USER_ACCOUNT_REGISTRATION_BY_EMAIL_URL_SUFFIX = "/api/idam/user-account/applications/:appId/register-by-email"
 	USER_ACCOUNT_LOGIN_URL_SUFFIX                 = "/api/idam/user-account/applications/:appId/login"
+	USER_ACCOUNT_ACCEPT_INVITE_URL_SUFFIX         = "/api/idam/user-account/applications/:appId/accept-invite"
 	USER_ACCOUNT_VERIFY_ACCOUNT_URL_SUFFIX        = "/api/idam/user-account/applications/:appId/verify-account"
 	USER_ACCOUNT_INIT_PASSWORD_RESET_URL_SUFFIX   = "/api/idam/user-account/applications/:appId/initiate-password-reset"
 	USER_ACCOUNT_EXEC_PASSWORD_RESET_URL_SUFFIX   = "/api/idam/user-account/applications/:appId/execute-password-reset"

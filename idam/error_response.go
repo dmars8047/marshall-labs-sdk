@@ -127,4 +127,8 @@ const (
 	// Error code 125 indicates a pending invitation already exists for this email and application.
 	DuplicateInvite        = 125
 	DuplicateInviteMessage = "a pending invitation already exists for this email and application"
+	// Error code 130 indicates the user authenticates via a non-password provider (e.g. OAuth)
+	// and cannot accept an invitation through the password-based accept-invite endpoint.
+	OAuthUserCannotAcceptInvite        = 130
+	OAuthUserCannotAcceptInviteMessage = "this account uses a third-party sign-in provider and cannot accept invitations via password"
 )
