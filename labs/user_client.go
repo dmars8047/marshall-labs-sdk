@@ -13,6 +13,9 @@ import (
 
 const (
 	GetUserUrl = "/api/idam/users/:usrId"
+	// GetAppMembersUrl is idam's internal endpoint listing the active members of an
+	// application. It is Docker-network-only (not routed through api-proxy).
+	GetAppMembersUrl = "/api/idam/internal/applications/:appId/members"
 )
 
 // A client for making internal http calls to the IDAM service's user centered endpoints.
@@ -80,4 +83,55 @@ func (client *IdamUserClient) GetUser(userId string) (*idam.User, error) {
 	}
 
 	return &user, nil
+}
+
+// GetAppMembers returns the active members of an application, each with the email,
+// features, status, and join time idam holds for them. It targets idam's internal
+// Docker-network-only endpoint and is used to compose the platform member directory.
+func (client *IdamUserClient) GetAppMembers(appId string) ([]idam.AppMember, error) {
+	urlSuffix := strings.Replace(GetAppMembersUrl, ":appId", appId, 1)
+
+	base, err := url.Parse(client.baseUrl)
+
+	if err != nil {
+		return nil, err
+	}
+
+	suffix, err := url.Parse(urlSuffix)
+
+	if err != nil {
+		return nil, err
+	}
+
+	resolvedURL := base.ResolveReference(suffix)
+
+	response, err := client.httpClient.Get(resolvedURL.String())
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer response.Body.Close()
+
+	if response.StatusCode != http.StatusOK {
+		var errorResponse idam.ErrorResponse
+
+		err = json.NewDecoder(response.Body).Decode(&errorResponse)
+
+		if err != nil {
+			return nil, fmt.Errorf("error decoding response body from idam service - %v", err)
+		}
+
+		return nil, &errorResponse
+	}
+
+	var members []idam.AppMember
+
+	err = json.NewDecoder(response.Body).Decode(&members)
+
+	if err != nil {
+		return nil, errors.New("error decoding app members response body from idam service")
+	}
+
+	return members, nil
 }
