@@ -21,7 +21,7 @@ Inter-service communication utilities:
 - **`IdamSecurityClient`** — Client for the IDAM security endpoints (`/verify-token`, `/verify-route`).
 - **`IdamUserClient`** — Client for the IDAM user endpoint (`GET /api/idam/users/:usrId`). Intended for internal service-to-service calls.
 - **`IdamPublicRoutesClient`** — Client to fetch the public route list from the IDAM app registry endpoint.
-- Event types (`UserCreatedEvent`, `UserLoggedOutEvent`, etc.) for consuming IDAM user events from the message bus.
+- Event types for consuming IDAM user events from the message bus: membership lifecycle (`MemberActivatedEvent`, `MemberDeactivatedEvent`, `UserDeletedEvent`), plus `UserLoggedOutEvent` and the legacy `UserCreatedEvent`.
 
 ## Installation
 
